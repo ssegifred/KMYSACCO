@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+
+>
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+        <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
+        <h:outputStylesheet name="../css/App.css"/>
+        <style>
+            .container{
+                margin: 50px auto;
+                margin-top: 80px;
+                width: fit-content;
+                padding: 20px;
+                background-color:#e1dfcd;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+                text-align:justify;
+            }
+        </style>
+    </f:facet>
+</h:head>
+<h:body style="background-color: gainsboro">
+<f:view>
+    <div class="container">
+    <div class="card">
+        <div class="flex justify-content-center">
+        <p:graphicImage name="kimwanyi.jpg" library="images" alt="image missing" width="100" height="100"/>
+        </div>
+        <div class="flex justify-content-center">
+            <h1>KIMWANYI SACCO</h1></div>
+        <div class="flex justify-content-center">
+        <h2 >Register for Membership</h2>
+        </div>
+        <style>
+            /* reset on the showcase style*/
+            body .ui-panelgrid .ui-panelgrid-cell {
+                background-color: inherit;
+            }
+    
+            /* example use of styles for your form */
+            .my-heading-row {
+
+                font-weight: bold;
+            }
+        </style>
+    
+    
+        <p:panelGrid columns="4"
+                    columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                    layout="grid"
+                    styleClass="ui-panelgrid-blank ui-fluid"
+                    style="border:0px none; background-color:transparent;">
+
+            <p:row styleClass="my-heading-row ">
+            Applicant Information
+            </p:row>
+
+            <p:outputLabel  value="First Name"/>
+            <p:inputText/>
+    
+            <p:outputLabel for="@next" value="Last Name"/>
+            <p:inputText/>
+    
+            <p:outputLabel for="@next" value="Phone"/>
+            <p:inputText/>
+    
+            <p:outputLabel for="@next" value="Email"/>
+            <p:inputText/>
+
+            <p:outputLabel for="@next" value="Date of Birth"/>
+            <p:datePicker  showIcon="true" style="width:auto"/>
+
+            <p:outputLabel for="@next" value="Residence"/>
+            <p:inputText/>
+
+            <p:row id="my-row-id" styleClass="my-heading-row" style="font-weight: bold">
+                Next of kin
+            </p:row>
+    
+            <p:outputLabel for="@next" value="Firstname"/>
+            <p:inputText/>
+    
+            <p:outputLabel for="@next" value="Lastname"/>
+            <p:inputText/>
+    
+            <p:outputLabel for="@next" value="Contact"/>
+            <p:inputText/>
+    
+            <p:outputLabel for="@next" value="Residence"/>
+
+                <p:inputText />
+
+    
+            
+    
+            <p:row class="justify-content-center">
+
+                    <p:button value="Register" styleClass="mr-2" style="width: auto" outcome="/pages/dashboard/Dashboard.xhtml"/>
+                    <p:button value="Cancel" styleClass="mr-2" style="width: auto" outcome="/pages/landing/Landing.xhtml"/>
+
+            </p:row>
+        </p:panelGrid>
+    </div>
+    </div>
+</f:view>
+</h:body>
+</html>

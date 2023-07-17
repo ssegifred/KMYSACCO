@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+>
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+        <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
+        <style>
+            .container{
+                margin: 50px auto;
+                margin-top: 80px;
+                width: fit-content;
+                padding: 20px;
+                border-radius: 8px;
+
+            }
+        </style>
+    </f:facet>
+    <script>
+        setTimeout(function() {
+            window.location.href = "/kimwanyi/pages/home/Home.xhtml";
+        }, 10000); // Redirect after 10 seconds
+    </script>
+</h:head>
+<h:body style="background-color: #83836b">
+    <f:view>
+        <h:outputLabel value="Welcome, User" styleClass="text-2xl"/>
+
+        <hr/>
+<div class="container">
+        <div class="flex justify-content-center">
+            <p:graphicImage name="kimwanyi.jpg" library="images" alt="image missing" />
+        </div>
+
+</div>
+    </f:view>
+</h:body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+   <meta charset="UTF-8" />
+   <title>Admin Dashboard</title>
+   <link rel="stylesheet" type="text/css" href="../../css/admin2.css" />
+   <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
+   <script>
+      function toggleSidebar() {
+         var sidebar = document.querySelector(".side_navbar");
+         var mainBody = document.querySelector(".main-body");
+
+         sidebar.classList.toggle("open");
+         mainBody.classList.toggle("open");
+
+         if (sidebar.classList.contains("open")) {
+            mainBody.style.marginLeft = "fit";
+         } else {
+            mainBody.style.marginLeft = "0";
+         }
+      }
+   </script>
+</h:head>
+
+<h:body>
+   <header class="header">
+      <div class="logo">
+         <p:graphicImage name="logo.png" library="images" alt="image missing" width="50" height="50" />
+         <a href="#">KMYSACCO</a>
+      </div>
+
+      <div class="header-icons">
+         <h4>
+            <p:outputLabel value="Users" icon="pi pi-users" />
+            <p:outputLabel value="5000/=" icon="pi pi-dollar" />
+         </h4>
+         <div class="account">
+            <p:graphicImage name="user.svg" library="images" />
+            <h4>AdminName</h4>
+         </div>
+      </div>
+
+   </header>
+
+   <div class="container">
+      <nav>
+         <div class="menu-icon"  onclick="toggleSidebar()">
+            <i class="pi pi-bars"></i>
+         </div>
+         <div class="side_navbar">
+
+               <p:link value="Profile" icon="pi pi-user-edit" />
+               <p:link value="AddMember" icon="pi pi-user-plus" />
+               <p:link value="DeleteMember" icon="pi pi-user-minus" />
+               <p:link value="Loans" icon="pi pi-book" onclick="showLoanForm(event)"/>
+               <p:link value="Transactions" icon="pi pi-briefcase" />
+               <p:link value="Logout" icon="pi pi-sign-out" outcome="/pages/landing/Landing.xhtml"/>
+
+         </div>
+      </nav>
+
+      <div class="main-body">
+         <h2 class="flex justify-content-center">KIMWANYI SACCO</h2>
+
+         <div class="history_lists">
+            <div class="list1">
+               <div class="row">
+                  <h4 class="flex justify-content-center">Members Registered</h4>
+               </div>
+               <p:dataTable value="cool table">
+                  <p:column headerText="#" styleClass="col-number">
+                     <h:outputText value="number" />
+                  </p:column>
+                  <p:column headerText="Date">
+                     <h:outputText value="date" />
+                  </p:column>
+                  <p:column headerText="FName">
+                     <h:outputText value="Fname" />
+                  </p:column>
+                  <p:column headerText="LName">
+                     <h:outputText value="Lname" />
+                  </p:column>
+                  <p:column headerText="Residence">
+                     <h:outputText value="residence" />
+                  </p:column>
+                  <p:column headerText="Contact">
+                     <h:outputText value="contact" />
+                  </p:column>
+                  <p:column headerText="Next of Kin">
+                     <h:outputText value="next of kin" />
+                  </p:column>
+                  <p:column headerText="NContact">
+                     <h:outputText value="ncontact" />
+                  </p:column>
+               </p:dataTable>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="loanFormDialog" class="dialog-form" style="display: none;">
+
+      <h:form>
+         <h3>Apply for Loan</h3>
+         <p>Amount:</p>
+         <p:inputText id="amountInput" />
+
+         <p>Reason:</p>
+         <p:inputTextarea id="reasonInput" />
+
+         <p:commandButton value="Apply" onclick="submitLoanForm()" />
+         <p:commandButton value="Close" onclick="hideLoanForm()" />
+      </h:form>
+   </div>
+
+   <script>
+      function showLoanForm() {
+         document.getElementById("loanFormDialog").style.display = "block";
+      }
+
+      function hideLoanForm() {
+         document.getElementById("loanFormDialog").style.display = "none";
+      }
+
+      function submitLoanForm(event) {
+         event.preventDefault(); // Prevent default form submission
+
+         // Add logic to submit the loan form data
+
+         hideLoanForm();
+      }
+   </script>
+</h:body>
+
+</html>

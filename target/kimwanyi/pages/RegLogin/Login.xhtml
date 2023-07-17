@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+
+>
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+        <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
+        <h:outputStylesheet name="../css/App.css"/>
+    </f:facet>
+    <style>
+        .container{
+            margin: 50px auto;
+            margin-top: 100px;
+            width: 450px;
+            padding: 20px;
+            background-color: #e1dfcd;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            text-align:center;
+        }
+    </style>
+</h:head>
+<h:body style="background-color: gainsboro">
+<f:view>
+    <div class="container">
+        <div class="flex justify-content-center">
+            <p:graphicImage name="kimwanyi.jpg" library="images" alt="image missing" width="100" height="100" />
+        </div>
+    <h2> Welcome to Kimwanyi Login</h2>
+        <small>We develop together</small><br/><br/>
+
+            <p:outputLabel for="member" value="MemberID"/>
+            <p:inputText id="member" required="true"/>
+            <br/><br/>
+
+            <p:outputLabel for="pass" value="Password"/>
+            <p:inputText id="pass" required="true"/>
+
+            <br/><br/>
+
+        <p:button value="Login" outcome="/pages/dashboard/Dashboard.xhtml"/>
+        <br/><br/>
+        <p:outputLabel value="Don't have an accout?">
+            <p:link value="Register" outcome="/pages/RegLogin/Register.xhtml"/>
+        </p:outputLabel>
+    </div>
+
+</f:view>
+</h:body>
+</html>

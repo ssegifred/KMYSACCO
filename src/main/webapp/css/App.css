@@ -1,0 +1,33 @@
+
+#footer {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+.card1 {
+    margin-top: 10px;
+    width: 200px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card1:hover {
+    transform: translateY(-5px);
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    #sidebar {
+        min-width: 60px;
+    }
+
+}
+

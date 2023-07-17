@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+<f:facet name="first">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
+</f:facet>
+</h:head>
+<h:body>
+<f:view>
+   <p> Welcome to Kimwanyi SACCO <br/>
+   Lets Develop together as one
+   </p>
+   <div>
+      <h:outputText value="Please login to access your Account"/>
+      <br/>
+
+      <p:linkButton outcome="/pages/RegLogin/Login.xhtml" value="Member" style="margin-right:20px;">
+         <f:param name="Login" value="10"/>
+      </p:linkButton>
+      <br/>
+
+      <br/>
+      <p:linkButton outcome="/pages/Admin/admin.xhtml" value="Admin"/>
+
+   </div>
+</f:view>
+</h:body>
+</html>
