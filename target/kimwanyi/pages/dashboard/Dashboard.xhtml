@@ -14,7 +14,7 @@
 
         <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
     <link rel="stylesheet" type="text/css" href="../../css/App.css" />
-
+        <link rel="stylesheet" type="text/css" href="../../css/dash.css" />
     </f:facet>
     <style>
         .dialog-form {
@@ -39,30 +39,30 @@
     </style>
 </h:head>
 <h:body>
+    <div class="container">
     <div id="dashboard">
-        <div class="card">
+
             <h:form>
                 <p:growl id="messages"/>
                 <p:menubar>
                 <p:submenu label="Dashboard" icon="pi pi-bars">
                         <p:menuitem value="Home" icon="pi pi-home" />
-                        <p:menuitem value="Analytics" icon="pi pi-chart-line" />
-                        <p:menuitem value="Reports" icon="pi pi-file" />
+                    <p:menuitem value="Get Loan" icon="pi-credit-card"/>
+                        <p:menuitem value="Reports" icon="pi-database" />
                     </p:submenu>
                 <p:divider layout="vertical" />
                     <p:submenu label="Settings" icon="pi pi-fw pi-cog" >
                         <p:menuitem value="Edit" icon="pi pi-user" />
-                        <p:menuitem value="Account" icon="pi pi-cog" />
                     </p:submenu>
                     <p:divider layout="vertical" />
-                    <p:submenu label="AccountDetails" icon="pi pi-fw pi-cog" >
-                        <p:menuitem value="Withdrawals" icon="pi-database" onclick="showLoanForm(event)"/>
-                        <p:menuitem value="Deposits" icon="pi-dollar" onclick="showDepositForm(event)"/>
+                    <p:submenu label="Transact" icon="pi-briefcase" >
+                        <p:menuitem value="Withdrawal" icon="pi-database" onclick="showLoanForm(event)"/>
+                        <p:menuitem value="Deposit" icon="pi-dollar" onclick="showDepositForm(event)"/>
                     </p:submenu>
                     <p:divider layout="vertical" />
 
                     <f:facet name="options">
-                        <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" outcome="/pages/landing/Landing.xhtml"/>
+                        <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" outcome="#{navigation.landing}"/>
                     </f:facet>
                 </p:menubar>
 
@@ -76,35 +76,25 @@
                 </div>
             </div>
 
-
-
-            <p:divider />
-
-
-                <h3 class ="text-4xl text-center">About Us</h3>
-                <div class="card">
-                    <p:outputPanel deferred="true" deferredMode="visible">
-                    <p class="m-0">Welcome to our SACCO! We are a community-based financial institution that aims to provide financial services to our members and promote a culture of saving and responsible borrowing.</p>
-                    <p class="m-0 flex justify-content-center">Thank you for choosing Kimwanyi SACCO!</p>
-                    </p:outputPanel>
-                </div>
-
-
 </h:form>
-        </div>
     <div id="footer">
-        <h:outputText value="© 2023 Your Company. All rights reserved." />
+        <h4 class =" text-center">About Us</h4>
+                <p class="m-0"> We are a community-based financial institution that aims to provide financial services to our members and promote a culture of saving and responsible borrowing.</p>
+                <h:outputText value="© 2023 KMY SACCO. All rights reserved." />
     </div>
         <div id="WithdrawForm" class="dialog-form" style="display: none;">
             <div class="withdraw-content">
                 <form>
+                    <div class="flex justify-content-center">
+                        <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
+                    </div>
                     <h3>KMY SACCO Withdraw Form</h3>
                     <p>Amount:</p>
                     <p:inputText id="amountInput" />
 
                     <p>Reason:</p>
                     <p:inputTextarea id="reasonInput" /><br/><br/>
-                    <div class="flex justify-content-center">
+                    <div class="flex justify-content-center gap-2">
                     <p:commandButton value="Apply" onclick="submitLoanForm()" />
                     <p:commandButton value="Close" onclick="hideLoanForm()" />
                     </div>
@@ -114,21 +104,24 @@
         <div id="DepositForm" class="dialog-form" style="display: none;">
             <div class="withdraw-content">
                 <form>
+                    <div class="flex justify-content-center">
+                        <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
+                    </div>
                     <h3>KMY SACCO Deposit Form</h3>
                     <p>Amount:</p>
                     <p:inputText id="deposit" />
 
                     <p>Reason:</p>
                     <p:inputTextarea id="re-deposit" /><br/><br/>
-                    <div class="flex justify-content-center">
-                        <p:commandButton value="Deposit" onclick="submitDepositForm()" />
+                    <div class="flex justify-content-center p-5">
+                        <p:commandButton value="Deposit" onclick="submitDepositForm()"/>
                         <p:commandButton value="Close" onclick="hideDepositForm()" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
+    </div>
     <script>
         function showLoanForm() {
             document.getElementById("WithdrawForm").style.display = "flex";

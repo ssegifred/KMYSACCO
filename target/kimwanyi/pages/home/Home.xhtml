@@ -15,25 +15,61 @@
 
 <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
 </f:facet>
+   <style>
+      .product-item .product-item-content {
+         border: 1px solid var(--surface-d);
+         border-radius: 3px;
+         margin: .3rem;
+         text-align: center;
+         padding: 2rem 0;
+      }
+
+      .product-item .product-image {
+         width: 50%;
+         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+      }
+   </style>
 </h:head>
-<h:body>
-<f:view>
-   <p> Welcome to Kimwanyi SACCO <br/>
-   Lets Develop together as one
-   </p>
-   <div>
-      <h:outputText value="Please login to access your Account"/>
-      <br/>
-
-      <p:linkButton outcome="/pages/RegLogin/Login.xhtml" value="Member" style="margin-right:20px;">
-         <f:param name="Login" value="10"/>
-      </p:linkButton>
-      <br/>
-
-      <br/>
-      <p:linkButton outcome="/pages/Admin/admin.xhtml" value="Admin"/>
-
+<h:body style="display: flex; flex-direction: column; min-height: 100vh;">
+   <div style="background-color: #f5f5f5; padding: 10px; display: flex; align-items: center;">
+      <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="75" height="75" style="margin-right: 10px"/>
+      <h2 style="flex-grow: 1; text-align: center;">Welcome To KIMWANYI SACCO</h2>
+      <p:linkButton outcome="#{navigation.login}" value="Member" styleClass="ui-button-secondary" style="margin-right: 10px;"/>
+      <p:linkButton outcome="#{navigation.adminlogin}" value="Admin" styleClass="ui-button-secondary" style="margin-right: 10px;"/>
    </div>
-</f:view>
+
+   <div style="flex-grow: 1; background-color: #e3cfb3; padding-top: 15px;">
+      <h:form>
+         <p:carousel value="#{carousel.images}" var="image" autoplay="true" circular="true" autoplayInterval="3000"
+                     numVisible="3" numScroll="1">
+            <div class="product-item">
+               <div class="product-item-content">
+                  <div class="mb-3">
+                     <p:graphicImage value="#{image.imageUrl}" alt="#{image.description}" styleClass="product-image"/>
+                  </div>
+                  <div>
+                     <h4 class="mb-1">#{image.description}</h4>
+                  </div>
+               </div>
+            </div>
+         </p:carousel>
+
+         <div style="text-align: center; margin-top: 20px;">
+            <h:outputText value="Please login to access your Account"/>
+         </div>
+      </h:form>
+   </div>
+
+   <!-- Footer -->
+   <div style="background-color: #f5f5f5; padding: 10px; text-align: center;">
+      <div style="float: left;">
+         <b>Bbuuliro Village, Kyesiiga SubCounty Masaka District UG</b>
+      </div>
+      <div style="float: right;">
+         <b>Chairperson: Okello John 0778984664</b>
+      </div>
+      <div style="clear: both; margin: auto">&copy; 2023 Your Company. All rights reserved.</div>
+   </div>
 </h:body>
+
 </html>

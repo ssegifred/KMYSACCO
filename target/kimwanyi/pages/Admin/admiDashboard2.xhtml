@@ -50,14 +50,14 @@
          <div class="menu-icon"  onclick="toggleSidebar()">
             <i class="pi pi-bars"></i>
          </div>
-         <div class="side_navbar">
+         <div class="side_navbar ">
 
                <p:link value="Profile" icon="pi pi-user-edit" />
                <p:link value="AddMember" icon="pi pi-user-plus" />
                <p:link value="DeleteMember" icon="pi pi-user-minus" />
                <p:link value="Loans" icon="pi pi-book" onclick="showLoanForm(event)"/>
                <p:link value="Transactions" icon="pi pi-briefcase" />
-               <p:link value="Logout" icon="pi pi-sign-out" outcome="/pages/landing/Landing.xhtml"/>
+               <p:link value="Logout" icon="pi pi-sign-out" outcome="#{navigation.landing}"/>
 
          </div>
       </nav>

@@ -75,6 +75,7 @@ nav {
     display: flex;
     flex-direction: column;
     transition: width 0.3s ease;
+    height: 100%;
 }
 
 .side_navbar.open {

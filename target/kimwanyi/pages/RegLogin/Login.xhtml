@@ -16,7 +16,6 @@
         <meta name="apple-mobile-web-app-capable" content="yes"/>
 
         <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
-        <h:outputStylesheet name="../css/App.css"/>
     </f:facet>
     <style>
         .container{
@@ -49,10 +48,10 @@
 
             <br/><br/>
 
-        <p:button value="Login" outcome="/pages/dashboard/Dashboard.xhtml"/>
+        <p:button value="Login" outcome="#{navigation.dashboard}"/>
         <br/><br/>
         <p:outputLabel value="Don't have an accout?">
-            <p:link value="Register" outcome="/pages/RegLogin/Register.xhtml"/>
+            <p:link value="Register" outcome="#{navigation.register}"/>
         </p:outputLabel>
     </div>
 
