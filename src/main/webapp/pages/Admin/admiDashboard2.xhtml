@@ -70,32 +70,42 @@
                <div class="row">
                   <h4 class="flex justify-content-center">Members Registered</h4>
                </div>
-               <p:dataTable value="cool table">
-                  <p:column headerText="#" styleClass="col-number">
-                     <h:outputText value="number" />
+               <h:form>
+               <p:dataTable var="user" value="#{userView.getAllUsers()}" id="UserTable">
+                  <p:column headerText="ID" styleClass="col-number">
+                     <h:outputText value="#{user.getId()}" />
                   </p:column>
-                  <p:column headerText="Date">
-                     <h:outputText value="date" />
+               <p:column headerText="MemberID">
+                  <h:outputText value="#{user.getMemberId()}" />
+               </p:column>
+                  <p:column headerText="Firstname">
+                     <h:outputText value="#{user.getFirstname()}" />
                   </p:column>
-                  <p:column headerText="FName">
-                     <h:outputText value="Fname" />
+                  <p:column headerText="Lastname">
+                     <h:outputText value="#{user.getLastname()}" />
                   </p:column>
-                  <p:column headerText="LName">
-                     <h:outputText value="Lname" />
+                  <p:column headerText="Phone">
+                     <h:outputText value="#{user.getPhone()}" />
                   </p:column>
                   <p:column headerText="Residence">
-                     <h:outputText value="residence" />
+                     <h:outputText value="#{user.getResidence()}" />
                   </p:column>
-                  <p:column headerText="Contact">
-                     <h:outputText value="contact" />
+                  <p:column headerText="Email">
+                     <h:outputText value="#{user.getEmail()}" />
                   </p:column>
-                  <p:column headerText="Next of Kin">
-                     <h:outputText value="next of kin" />
+                  <p:column headerText="DOB">
+                     <h:outputText value="#{user.getDob()}" />
                   </p:column>
-                  <p:column headerText="NContact">
-                     <h:outputText value="ncontact" />
+                  <p:column headerText="Password">
+                     <h:outputText value="#{user.getPassword()}" />
+                  </p:column>
+                  <p:column headerText="Action">
+                     <div class="flex justify-content-center gap-4">
+                     <p:commandButton update="UserTable" value="Delete" action="#{userView.deleteMember(user)}" />
+                     </div>
                   </p:column>
                </p:dataTable>
+               </h:form>
             </div>
          </div>
       </div>
@@ -104,11 +114,11 @@
 
       <h:form>
          <h3>Apply for Loan</h3>
+         <p>MemberID:</p>
+         <p:inputText id="memberid" required="true" />
          <p>Amount:</p>
          <p:inputText id="amountInput" />
-
-         <p>Reason:</p>
-         <p:inputTextarea id="reasonInput" />
+         <br/><br/>
 
          <p:commandButton value="Apply" onclick="submitLoanForm()" />
          <p:commandButton value="Close" onclick="hideLoanForm()" />

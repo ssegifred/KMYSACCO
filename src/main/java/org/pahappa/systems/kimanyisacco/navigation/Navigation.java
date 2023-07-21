@@ -18,6 +18,11 @@ public class Navigation {
     private final String Register="/pages/RegLogin/Register.xhtml";
 
     private final String landing = "/pages/landing/Landing.xhtml";
+    private final String edituser="/pages/RegLogin/EditMember.xhtml";
+
+    public String getEdituser() {
+        return edituser;
+    }
 
     public String getDashboard() {
         return dashboard;

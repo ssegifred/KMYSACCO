@@ -21,29 +21,31 @@
 </h:head>
 
 <h:body style="background-color: gainsboro">
-    <f:view>
+
+
         <div class="container">
             <div class="flex justify-content-center">
                 <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
             </div>
             <h2> KMY SACCO ADMIN LOGIN PANEL</h2>
             <small>We develop together</small><br/><br/>
-
+            <h:form>
             <p:outputLabel for="admin" value="AdminID"/>
-            <p:inputText id="admin" required="true"/>
+            <p:inputText id="admin" value="adminid" required="true"/>
             <br/><br/>
 
             <p:outputLabel for="pass" value="Password"/>
-            <p:inputText id="pass" required="true"/>
+            <p:password id="pass" value="pass required="true"/>
 
             <br/><br/>
 
-            <p:button value="Login" outcome="#{navigation.admiDashboard}"/>
+            <p:commandButton value="Login" action="#{navigation.admiDashboard}"/>
             <br/><br/>
             <small>Fields marked * are required!</small>
+            </h:form>
         </div>
 
-    </f:view>
+
 </h:body>
 </html>
 

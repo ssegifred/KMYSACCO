@@ -18,7 +18,7 @@ body {
     justify-content: space-between;
     height: 60px;
     padding: 20px;
-    background: #BFBBAC;
+    background: #F1EDE2;
 }
 
 .logo {
@@ -65,13 +65,14 @@ body {
 
 /* Side menubar section */
 nav {
-    background: #BFBBAC;
+    background: #f7f5ee;
+    height: 100vh;
 }
 
 .side_navbar {
     width: 0;
     overflow: hidden;
-    padding: 1px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     transition: width 0.3s ease;
@@ -117,7 +118,7 @@ nav {
 }
 
 .main-body.open {
-    margin-left: 20%;
+    margin-left: auto;
 }
 
 .history_lists {
