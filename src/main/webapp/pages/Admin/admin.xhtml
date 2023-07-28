@@ -12,7 +12,7 @@
             margin-top: 100px;
             width: 450px;
             padding: 20px;
-            background-color: #e1dfcd;
+            background-color: #E8E5DA;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             text-align:center;
@@ -27,21 +27,21 @@
             <div class="flex justify-content-center">
                 <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
             </div>
-            <h2> KMY SACCO ADMIN LOGIN PANEL</h2>
-            <small>We develop together</small><br/><br/>
+           <div style="color: #529381;"><h2> KMY SACCO ADMIN LOGIN PANEL</h2></div> 
+            <small style="color: rgb(125, 194, 226);">We develop together</small><br/><br/>
             <h:form>
             <p:outputLabel for="admin" value="AdminID"/>
-            <p:inputText id="admin" value="adminid" required="true"/>
+            <p:inputText id="admin" value="#{adminBean.admin.adminId}" required="true"/>
             <br/><br/>
 
             <p:outputLabel for="pass" value="Password"/>
-            <p:password id="pass" value="pass required="true"/>
+            <p:password id="pass" value="#{adminBean.admin.pass}" required="true"/>
 
             <br/><br/>
-
-            <p:commandButton value="Login" action="#{navigation.admiDashboard}"/>
+            <p:growl id="messages" showDetail="true"></p:growl>
+            <p:commandButton value="Login" action="#{adminBean.dologin()}" update="messages"/>
             <br/><br/>
-            <small>Fields marked * are required!</small>
+            <small style="color: coral;">Fields marked * are required!</small>
             </h:form>
         </div>
 

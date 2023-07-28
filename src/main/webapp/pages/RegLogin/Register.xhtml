@@ -21,16 +21,14 @@
 <h:body style="background-color: gainsboro">
     <h:form>
         <div class="flex justify-content-center">
-            <f:view>
-                <div class="w-5 h-auto border-50 p-4 surface-ground border-round-sm mt-8">
+                <div class="w-5 h-auto border-50 p-4 bg-bluegray-50 border-round-sm mt-8">
 
                     <div class="flex justify-content-center">
                         <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
                     </div>
                     <!--                <div class="justify-content-center " style="width: 800px;height: fit-content;>-->
-                    <h2 class="ml-8">  <b>Member Registration Form</b></h2>
+                    <div style="color: #529381;"><h2 class="ml-8"><b>Member Registration Form</b></h2></div>
                     <div class="formgrid grid " >
-
                         <div class="field col-12 md:col-6 ">
                             <label for="firstname">First Name</label>
                             <p:inputText value="#{register.user.firstname}" id="firstname" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full "/>
@@ -54,7 +52,7 @@
                         </div>
                         <div class="field col-12 md:col-6 ">
                             <label for="dob">Date of Birth</label>
-                            <p:datePicker value="#{register.user.firstname}" id="dob" showIcon="true" style="width:auto" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                            <p:datePicker value="#{register.user.dob}" id="dob" showIcon="true" style="width:auto" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
                         </div>
                         <div class="field col-12 md:col-6 ">
                             <label for="pass">Password</label>
@@ -64,19 +62,22 @@
                             <label for="memberId">Member ID</label>
                             <p:inputText value="#{register.user.memberId}" id="memberId" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
                         </div>
+                        <div class="field col-12 md:col-6 ">
+                        <small style="color: coral;">Please Save your MemberID</small></div>
                         <div class="justify-content-center">
-                        <p:commandButton  action="#{register.registerUser()}" value="save" type="submit" styleClass="mr-2" style="width: auto" />
-                        <p:button value="Cancel" styleClass="mr-2" style="width: auto" outcome="#{navigation.landing}"/>
+                        <p:commandButton action="#{register.registerUser()}"  value="save" styleClass="mr-2" style="width: auto" />
+                        <p:button value="Cancel" outcome="#{navigation.home}" styleClass="mr-2" style="width: auto"/>
                         </div>
+
                     </div>
 
-
-
                 </div>
-            </f:view>
         </div>
 
-
     </h:form>
+
+
+
+    
 </h:body>
 </html>

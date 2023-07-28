@@ -23,7 +23,7 @@
             margin-top: 100px;
             width: 450px;
             padding: 20px;
-            background-color: #F1EDE2;
+            background-color: #E9EFE8;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             text-align:center;
@@ -31,13 +31,14 @@
     </style>
 </h:head>
 <h:body style="background-color: gainsboro">
+
 <h:form>
     <div class="container">
         <div class="flex justify-content-center">
             <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
         </div>
-    <h2 class="justify-content-center"> KMY SACCO LOGIN</h2>
-        <small>We develop together</small><br/><br/>
+        <div style="color: #529381;"><h2 class="justify-content-center"> KMY SACCO LOGIN</h2></div>
+        <small style="color: rgb(125, 194, 226);">We develop together</small><br/><br/>
 
             <p:outputLabel for="member" value="MemberID"/>
             <p:inputText id="member" value="#{loginForm.user.memberId}" required="true"/>
@@ -45,14 +46,15 @@
 
             <p:outputLabel for="pass" value="Password"/>
             <p:password id="pass" value="#{loginForm.user.password}" required="true"/>
-
             <br/><br/>
-
-        <p:commandButton value="Login" action="#{loginForm.doLogin()}"/>
+        <p:growl id="messages" showDetail="true"></p:growl>
+        <p:commandButton value="Login" action="#{loginForm.doLogin()}" update="messages"/>
+        
         <br/><br/>
         <p:outputLabel value="Don't have an accout?">
             <p:link value="Register" outcome="#{navigation.register}"/>
         </p:outputLabel>
+        <small style="color: coral;">Fields marked * are required!</small>
     </div>
 
 </h:form>

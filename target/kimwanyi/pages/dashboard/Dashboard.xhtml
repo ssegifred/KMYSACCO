@@ -31,14 +31,15 @@
         }
 
         .withdraw-content {
-            background-color: #F1EDE2;
+            background-color: #E9EFE8;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
         }
     </style>
 </h:head>
-<h:body>
+<h:body class="bg-bluegray-50">
+    <h:panelGroup rendered="#{not empty sessionScope.Member}">
     <div class="container">
     <div id="dashboard">
 
@@ -52,52 +53,91 @@
                     </p:submenu>
                 <p:divider layout="vertical" />
                     <p:submenu label="Settings" icon="pi pi-fw pi-cog" >
-                        <p:menuitem value="Edit" icon="pi pi-user" outcome="#{navigation.edituser}"/>
+                        <p:menuitem value="Edit" icon="pi pi-user" outcome="#{navigation.memberedit}"/>
                     </p:submenu>
                     <p:divider layout="vertical" />
-                    <p:submenu label="Transact" icon="pi-briefcase" >
-                        <p:menuitem value="Withdrawal" icon="pi-database" onclick="showLoanForm(event)"/>
-                        <p:menuitem value="Deposit" icon="pi-dollar" onclick="showDepositForm(event)"/>
+                    <p:submenu label="Transact" icon="pi pi-briefcase" >
+                        <p:menuitem value="Withdrawal" icon="pi pi-database" onclick="showLoanForm(event)"/>
+                        <p:menuitem value="Deposit" icon="pi pi-dollar" onclick="showDepositForm(event)"/>
                     </p:submenu>
                     <p:divider layout="vertical" />
-
                     <f:facet name="options">
                         <p:commandButton value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" action="#{loginForm.logout()}"/>
                     </f:facet>
                 </p:menubar>
             </h:form>
-            <div class="flex align-content-between justify-content-center gap-8 px-6">
+           <div class="inline align-content-evenly justify-content-start gap-8 px-6 mt-2 m-4">
 
-                <div class="grid">
-                    <div class="col-12 md:col-6 lg:col-4">
-                        <div class="px-5 py-3 surface-card shadow-2 border-round">
-                            <div class="text-blue-600 font-medium line-height-3 mb-2">Deposits</div>
-                            <div class="text-900 font-bold line-height-3 text-2xl mb-2">50000</div>
-                            <p class="text-700 line-height-3 m-0">Nostrum laborum accusamus quia iste facere possimus minus itaque error unde.</p>
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-4">
-                        <div class="px-5 py-3 surface-card shadow-2 border-round">
-                            <div class="text-blue-600 font-medium line-height-3 mb-2">Withdraws</div>
-                            <div class="text-900 font-bold line-height-3 text-2xl mb-2">10000</div>
-                            <p class="text-700 line-height-3 m-0">Nostrum laborum accusamus quia iste facere possimus minus itaque error unde.</p>
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-4" >
-                        <div class="px-5 py-3 surface-card shadow-2 border-round" >
-                            <div class="text-blue-600 font-medium line-height-3 mb-2"  >Balance</div>
-                            <div class="text-900 font-bold line-height-3 text-2xl mb-2">40000</div>
-                            <p class="text-700 line-height-3 m-0" >Nostrum laborum accusamus quia iste facere possimus minus itaque error unde.</p>
-                        </div>
-                    </div>
-                </div>
-
-<!--                        <div class="card w-2 ml-8">-->
-<!--                            <p:pieChart model="#{pie.pieModel}" style="width: 100%; height: 500px;"/>-->
-<!--                        </div>-->
-
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-4">
+            <div class="px-5 py-3 surface-card shadow-2 border-round">
+                <i class="pi pi-wallet"></i>
+                <div class="text-blue-600 font-medium line-height-3 mb-2"><b>Deposits</b></div>
+                <div class="text-900 font-bold line-height-3 text-2xl mb-2"><h:outputText value="#{TransactionView.getDeposit()}" /></div>
+                <p class="text-700 line-height-3 m-0">Total Amount deposited</p>
             </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-4 ">
+            <div class="px-5 py-3 surface-card shadow-2 border-round">
+                <i class="pi pi-dollar"></i>
+                <div class="text-blue-600 font-medium line-height-3 mb-2"><b>Withdraws</b></div>
+                <div class="text-900 font-bold line-height-3 text-2xl mb-2"><h:outputText value="#{TransactionView.getWithdrawals()}" /></div>
+                <p class="text-700 line-height-3 m-0">Total Withdraws</p>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-4">
+            <div class="px-5 py-3 surface-card shadow-2 border-round">
+                <i class="pi pi-briefcase"></i>
+                <div class="text-blue-600 font-medium line-height-3 mb-2"><b>Balance</b></div>
+                <div class="text-900 font-bold line-height-3 text-2xl mb-2"><h:outputText value="#{TransactionView.getBalance()}" /></div>
+                <p class="text-700 line-height-3 m-0">Account Balance</p>
+            </div>
+        </div>
+    </div>
 
+</div>
+            <h:form>
+<div class="card">
+<div class="flex justify-content-between">
+   <div>
+   </div>
+   <div>
+      
+      <p:commandButton value="PDF" styleClass="mr-2 mb-2" >
+          <p:dataExporter type="pdf" target="history" fileName="Transaction Statement" visibleOnly="true" includeHeaders="true"/>
+      </p:commandButton>
+   </div>
+</div>
+    <p:dataTable id="history" var="transact" widgetVar="dtHist" value="#{TransactionView.getAllTransactions()}" showGridlines="true" allowUnsorting="true" sortMode="single">
+        <f:facet name="header">
+            <div class="flex justify-content-between align-items-center">
+                <div style="color: green;"><h4>Transaction History</h4></div>
+                <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                    <p:inputText id="globalFilter" onkeyup="PF('dtHist').filter()" placeholder="Search" />
+                 </span>
+                <div>
+                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+                    <p:columnToggler datasource="history" trigger="toggler">
+                        <p:ajax />
+                    </p:columnToggler>
+                </div>
+            </div>
+        </f:facet>
+
+        <p:column sortBy="#{transact.getTransactionDate()}" headerText="Date" filterBy="#{transact.getTransactionDate()}">
+            <h:outputText value="#{transact.getTransactionDate()}" />
+        </p:column>
+
+        <p:column sortBy="#{transact.getAmount()}" headerText="Amount" filterBy="#{transact.getAmount()}">
+            <h:outputText value="#{transact.getAmount()}" />
+        </p:column>
+
+        <p:column sortBy="#{transact.getType()}" headerText="Category" filterBy="#{transact.getType()}">
+            <h:outputText value="#{transact.getType()}" />
+        </p:column>
+    </p:dataTable>
+</div>
+</h:form>
 
     <div id="footer">
         <h4 class =" text-center">About Us</h4>
@@ -106,46 +146,50 @@
     </div>
         <div id="WithdrawForm" class="dialog-form" style="display: none;">
             <div class="withdraw-content">
-                <form>
+                <h:form>
                     <div class="flex justify-content-center">
                         <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
                     </div>
-                    <h3>KMY SACCO Withdraw Form</h3>
-                    <p>MemberId:</p>
-                    <p:inputText id="reasonInput" required="true"/>
+                    <div style="color: #529381;"><h3>KMY SACCO Withdraw Form</h3></div>
                     <p>Amount:</p>
-                    <p:inputText id="amountInput" />
+                    <p:inputText id="amountInput" value="#{accountbean.account.amount}"/>
 
                     <br/><br/>
                     <div class="flex justify-content-center gap-2">
-                    <p:commandButton value="Apply" onclick="submitLoanForm()" />
+                    <p:commandButton value="Apply"  action="#{accountbean.Withdrawal() }" onclick="submitLoanForm()"/>
                     <p:commandButton value="Close" onclick="hideLoanForm()" />
                     </div>
-                </form>
+                </h:form>
             </div>
         </div>
         <div id="DepositForm" class="dialog-form" style="display: none;">
             <div class="withdraw-content">
-                <form>
+                <h:form>
                     <div class="flex justify-content-center">
                         <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
                     </div>
-                    <h3>KMY SACCO Deposit Form</h3>
+                    <div style="color: #529381;"><h3>KMY SACCO Deposit Form</h3></div>
                     <p>Amount:</p>
-                    <p:inputText id="deposit" />
-
-                    <p>Reason:</p>
-                  <p:inputText id="reason"/>
+                    <p:inputText  value="#{accountbean.account.amount}"/>
                     <br/><br/>
                     <div class="flex justify-content-center gap-2">
-                        <p:commandButton value="Deposit" onclick="submitDepositForm()"/>
+                        <p:commandButton value="Deposit" action="#{accountbean.Deposit()}" onclick="submitDepositForm()"/>
                         <p:commandButton value="Close" onclick="hideDepositForm()" />
                     </div>
-                </form>
+                </h:form>
             </div>
         </div>
     </div>
     </div>
+</h:panelGroup>
+<h:panelGroup rendered="#{empty sessionScope.Member}">
+    <p>Access denied. Please wait, you'll be redirected to the login page...</p>
+    <script>
+        setTimeout(function() {
+            window.location.href = "#{request.contextPath}/#{navigation.login}";
+        }, 2000); // 2000 milliseconds (2 seconds) delay before redirection
+    </script>
+</h:panelGroup>
     <script>
         function showLoanForm() {
             document.getElementById("WithdrawForm").style.display = "flex";
@@ -171,8 +215,6 @@
 
         function submitDepositForm(event) {
             event.preventDefault();
-
-            // Add logic to submit the loan form data
 
             hideLoanForm();
         }

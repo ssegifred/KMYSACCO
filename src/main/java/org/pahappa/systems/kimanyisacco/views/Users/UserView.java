@@ -1,11 +1,15 @@
 package org.pahappa.systems.kimanyisacco.views.Users;
-import org.pahappa.systems.kimanyisacco.models.User;
-import org.pahappa.systems.kimanyisacco.service.Implement.UserServiceImpl;
-import org.pahappa.systems.kimanyisacco.service.Userservice;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import java.util.List;
+import javax.faces.context.FacesContext;
+
+import org.pahappa.systems.kimanyisacco.models.User;
+import org.pahappa.systems.kimanyisacco.service.Userservice;
+import org.pahappa.systems.kimanyisacco.service.Implement.UserServiceImpl;
 
 @ManagedBean(name = "userView")
 @ViewScoped
@@ -17,7 +21,7 @@ public class UserView {
 
     public UserView() {
         this.user = new User();
-        this.userservice=new UserServiceImpl();
+        this.userservice = new UserServiceImpl();
     }
 
     public User getUser() {
@@ -33,12 +37,23 @@ public class UserView {
     }
 
     public List<User> getAllUsers() {
-        userList=userservice.getAllUsers();
+        userList = userservice.getAllUsers();
         return userList;
     }
-    public void deleteMember(User user){
+
+    public void deleteMember(User user) {
         System.out.println(user.getMemberId());
-        userservice.deleteMember(user.getMemberId());
-        userList.remove(user);
+        boolean check = userservice.deleteMember(user.getMemberId());
+        if (check) {
+            userList.remove(user);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Member Removed successfully"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "Member has some balance!"));
+
+        }
     }
 }
