@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
 
 <h:head>
    <meta charset="UTF-8" />
@@ -22,24 +24,62 @@
             mainBody.style.marginLeft = "0";
          }
       }
+      function showTransactionForm(event) {
+event.preventDefault();
+         document.getElementById("TransactionFormDialog").style.display = "block";
+      }
+
+      function hideTransactionForm() {
+         document.getElementById("TransactionFormDialog").style.display = "none";
+      }
+
+      function submitTransactionForm(event) {
+         event.preventDefault(); // Prevent default form submission
+
+         hideTransactionForm();
+      }
    </script>
+   <style>
+      .dialog-form {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+      }
+
+      .withdraw-content {
+          background-color: #E9EFE8;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+      }
+  </style>
 </h:head>
 
-<h:body>
+<h:body class="bg-bluegray-50">
+   <h:panelGroup rendered="#{not empty sessionScope.AdminID}">
    <header class="header">
-      <div class="logo">
+      <div class="logo" >
          <p:graphicImage name="logo.png" library="images" alt="image missing" width="50" height="50" />
-         <a href="#">KMYSACCO</a>
+         <div style="color: #26BFA5;"><b>KMYSACCO</b></div>
       </div>
 
-      <div class="header-icons">
-         <h4>
-            <p:outputLabel value="Users" icon="pi pi-users" />
-            <p:outputLabel value="5000/=" icon="pi pi-dollar" />
-         </h4>
-         <div class="account">
+      <div class="header-icons gap-4">
+         <div style="color: #26BFA5;">
+         <b>
+            <p:outputLabel  value="#{empty userView.getAllUsers() ? 0 : userView.getAllUsers().size()}" />
+             <p:outputLabel value="Members" icon="pi pi-users" />
+         </b>
+         </div>
+         <div class="account " style="color: #26BFA5;">
             <p:graphicImage name="user.svg" library="images" />
-            <h4>AdminName</h4>
+            <h4>KMYADMIN</h4>
          </div>
       </div>
 
@@ -50,88 +90,126 @@
          <div class="menu-icon"  onclick="toggleSidebar()">
             <i class="pi pi-bars"></i>
          </div>
-         <div class="side_navbar">
+         <div class="side_navbar gap-6">
 
                <p:link value="Profile" icon="pi pi-user-edit" />
-               <p:link value="AddMember" icon="pi pi-user-plus" />
-               <p:link value="DeleteMember" icon="pi pi-user-minus" />
-               <p:link value="Loans" icon="pi pi-book" onclick="showLoanForm(event)"/>
-               <p:link value="Transactions" icon="pi pi-briefcase" />
-               <p:link value="Logout" icon="pi pi-sign-out" outcome="/pages/landing/Landing.xhtml"/>
+               <p:link value="AddMember" outcome="#{navigation.edituser}" icon="pi pi-user-plus" />
+               <p:link value="Loans" icon="pi pi-book"/>
+               <p:link value="Transactions" icon="pi pi-briefcase" href="#" onclick="showTransactionForm(event)"/>
+               <p:commandLink value="Logout" icon="pi pi-sign-out" action="#{adminBean.logout()}"/>
 
          </div>
       </nav>
 
       <div class="main-body">
-         <h2 class="flex justify-content-center">KIMWANYI SACCO</h2>
+         <p:growl id="msg" showDetail="true"/>
+         <h2 class="flex justify-content-center" style="color: #26BFA5;">KIMWANYI SACCO</h2>
 
          <div class="history_lists">
             <div class="list1">
                <div class="row">
-                  <h4 class="flex justify-content-center">Members Registered</h4>
+                  <h4 class="flex justify-content-center" >Members Registered</h4>
                </div>
-               <p:dataTable value="cool table">
-                  <p:column headerText="#" styleClass="col-number">
-                     <h:outputText value="number" />
+               <h:form>
+                  <div>
+                     <p:commandButton value="PDF" styleClass="mr-2 mb-2" icon="pi pi-download">
+                        <p:dataExporter type="pdf" target="history" fileName="Transaction Statement" visibleOnly="true" includeHeaders="true"/>
+                     </p:commandButton>
+                  </div>
+               <p:dataTable widgetVar="dtlist" var="user" value="#{userView.getAllUsers()}" id="UserTable" rowIndexVar="count" showGridlines="true" allowUnsorting="true" sortMode="single">
+                  <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                     <p:inputText id="globalFilter" onkeyup="PF('dtlist').filter()" placeholder="Search" />
+                  </span>
+               <p:column headerText="Number" styleClass="col-number">
+                     <h:outputText value="#{count + 1}" />
                   </p:column>
-                  <p:column headerText="Date">
-                     <h:outputText value="date" />
+               <p:column headerText="MemberID" filterBy="#{user.getMemberId()}">
+                  <h:outputText value="#{user.getMemberId()}" />
+               </p:column>
+                  <p:column headerText="Firstname" filterBy="#{user.getFirstname()}">
+                     <h:outputText value="#{user.getFirstname()}" />
                   </p:column>
-                  <p:column headerText="FName">
-                     <h:outputText value="Fname" />
+                  <p:column headerText="Lastname" filterBy="#{user.getLastname()}" >
+                     <h:outputText value="#{user.getLastname()}" />
                   </p:column>
-                  <p:column headerText="LName">
-                     <h:outputText value="Lname" />
+                  <p:column headerText="Phone">
+                     <h:outputText value="#{user.getPhone()}" />
                   </p:column>
-                  <p:column headerText="Residence">
-                     <h:outputText value="residence" />
+                  <p:column  headerText="Residence" filterBy="#{user.getResidence()}">
+                     <h:outputText value="#{user.getResidence()}" />
                   </p:column>
-                  <p:column headerText="Contact">
-                     <h:outputText value="contact" />
+                  <p:column headerText="Email">
+                     <h:outputText value="#{user.getEmail()}" />
                   </p:column>
-                  <p:column headerText="Next of Kin">
-                     <h:outputText value="next of kin" />
+                  <p:column headerText="DOB" filterBy="#{user.getDob()}">
+                     <h:outputText value="#{user.getDob()}" />
                   </p:column>
-                  <p:column headerText="NContact">
-                     <h:outputText value="ncontact" />
+                  <!-- <p:column headerText="Password">
+                     <h:outputText value="#{user.getPassword()}" />
+                  </p:column> -->
+                  <p:column headerText="Action">
+                     <div class="flex justify-content-center gap-4">
+                     <p:commandButton update="UserTable msg" value="Remove" action="#{userView.deleteMember(user)}" />
+                     </div>
                   </p:column>
                </p:dataTable>
+               </h:form>
             </div>
          </div>
+         
+            <div id="TransactionFormDialog" class="dialog-form" style="display: none;">
+               <h:form>
+               <div class="card">
+                  <div class="flex justify-content-between">
+                  <div>
+                     <p:commandButton value="PDF" styleClass="mr-2 mb-2" icon="pi pi-download">
+                        <p:dataExporter type="pdf" target="history" fileName="Transaction Statement" visibleOnly="true" includeHeaders="true"/>
+                     </p:commandButton>
+                  </div>
+                  </div>
+               <p:dataTable id="history" var="transact" widgetVar="dtHist" value="#{TransactionView.getTransactions()}" showGridlines="true" allowUnsorting="true" sortMode="single">
+               <f:facet name="header">
+                  <div class="flex justify-content-between align-items-center">
+                        <div style="color: green;"><h4>Transaction History</h4></div>
+                        <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                           <p:inputText id="globalFilter" onkeyup="PF('dtHist').filter()" placeholder="Search" />
+                        </span>
+                        <div>
+                           <p:commandButton value="Close" type="button" icon="pi pi-times" onclick="submitTransactionForm(event)" />
+                        </div>
+                     
+                  </div>
+               </f:facet>
+         
+               <p:column sortBy="#{transact.getTransactionDate()}" headerText="Date" filterBy="#{transact.getTransactionDate()}">
+                  <h:outputText value="#{transact.getTransactionDate()}" />
+               </p:column>
+         
+               <p:column sortBy="#{transact.getMemberid()}" headerText="MemberID" filterBy="#{transact.getMemberid()}">
+                  <h:outputText value="#{transact.getMemberid()}" />
+               </p:column>
+               <p:column sortBy="#{transact.getAmount()}" headerText="Amount" filterBy="#{transact.getAmount()}">
+                  <h:outputText value="#{transact.getAmount()}" />
+               </p:column>
+         
+               <p:column sortBy="#{transact.getType()}" headerText="Category" filterBy="#{transact.getType()}">
+                  <h:outputText value="#{transact.getType()}" />
+               </p:column>
+            </p:dataTable>
+            
+               </div>
+               </h:form>
+            </div>
       </div>
-   </div>
-   <div id="loanFormDialog" class="dialog-form" style="display: none;">
-
-      <h:form>
-         <h3>Apply for Loan</h3>
-         <p>Amount:</p>
-         <p:inputText id="amountInput" />
-
-         <p>Reason:</p>
-         <p:inputTextarea id="reasonInput" />
-
-         <p:commandButton value="Apply" onclick="submitLoanForm()" />
-         <p:commandButton value="Close" onclick="hideLoanForm()" />
-      </h:form>
-   </div>
-
-   <script>
-      function showLoanForm() {
-         document.getElementById("loanFormDialog").style.display = "block";
-      }
-
-      function hideLoanForm() {
-         document.getElementById("loanFormDialog").style.display = "none";
-      }
-
-      function submitLoanForm(event) {
-         event.preventDefault(); // Prevent default form submission
-
-         // Add logic to submit the loan form data
-
-         hideLoanForm();
-      }
-   </script>
+      </div>
+   </h:panelGroup>
+<h:panelGroup rendered="#{empty sessionScope.AdminID}">
+      <p>Access denied. Please wait, you'll be redirected to the adminlogin page...</p>
+      <script>
+         setTimeout(function() {
+            window.location.href = "#{request.contextPath}/#{navigation.adminlogin}";
+        }, 2000); // 2000 milliseconds (2 seconds) delay before redirection
+      </script>
+</h:panelGroup>
 </h:body>
-
 </html>

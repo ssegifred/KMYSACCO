@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+
+>
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+        <h:outputStylesheet name="primeflex/3.3.1/primeflex.css" library="webjars"/>
+    </f:facet>
+</h:head>
+<h:body style="background-color: gainsboro">
+<p:growl id="edit" showDetail="true"/>
+    <h:form>
+        <div class="flex justify-content-center">
+                <div class="w-5 h-auto border-50 p-4 bg-bluegray-50 border-round-sm mt-8">
+
+                    <div class="flex justify-content-center">
+                        <p:graphicImage name="kimwany1.png" library="images" alt="image missing" width="100" height="100" />
+                    </div>
+                    <!--                <div class="justify-content-center " style="width: 800px;height: fit-content;>-->
+                    <div style="color: #529381;"><h2 class="ml-8"><b>Edit your details</b></h2></div>
+                    <div class="formgrid grid " >
+                        <div class="field col-12 md:col-6 ">
+                            <label for="firstname">First Name</label>
+                            <p:inputText placeholder="#{register.currentUser.getFirstname()}" value="#{register.user.firstname}" id="firstname" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full "/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="lastname">Last Name</label>
+                            <p:inputText placeholder="#{register.currentUser.getLastname()}" value="#{register.user.lastname}" id="lastname" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full ">
+                                <p:ajax event="keyup" listener="#{register.generateMemberId()}" update="memberId" /></p:inputText>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="phone">Phone</label>
+                            <p:inputText placeholder="#{register.currentUser.getPhone()}" value="#{register.currentUser.phone}" id="phone"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="residence">Residence</label>
+                            <p:inputText placeholder="#{register.currentUser.getResidence()}" value="#{register.user.residence}" id="residence" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full "/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="email">Email</label>
+                            <p:inputText placeholder="#{register.currentUser.getEmail()}" value="#{register.user.email}" id="email" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full "/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="dob">Date of Birth</label>
+                            <p:datePicker placeholder="#{register.currentUser.getDob()}" value="#{register.user.dob}" id="dob" showIcon="true" style="width:auto" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="pass">Password</label>
+                            <p:password value="#{register.user.password}" id="pass" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                            <label for="memberId">Member ID</label>
+                            <p:inputText placeholder="#{register.currentUser.getMemberId()}" value="#{register.user.memberId}" id="memberId" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-6 ">
+                        <div class="justify-content-center">
+                        <p:commandButton action="#{register.updateUser()}"  value="save" styleClass="mr-2" style="width: auto" update="edit"/>
+                        <p:button value="Cancel" outcome="#{navigation.dashboard}" styleClass="mr-2" style="width: auto"/>
+                        </div>
+
+                    </div>
+
+                </div>
+        </div>
+    </div>
+    </h:form>
+</h:body>
+</html>
