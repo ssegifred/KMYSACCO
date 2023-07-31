@@ -61,11 +61,13 @@
                         <p:menuitem value="Deposit" icon="pi pi-dollar" onclick="showDepositForm(event)"/>
                     </p:submenu>
                     <p:divider layout="vertical" />
+                    <p:menuitem value="Welcome #{sessionScope.Member.getLastname()}" icon="pi pi-user" escape="false" />
                     <f:facet name="options">
                         <p:commandButton value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" action="#{loginForm.logout()}"/>
                     </f:facet>
                 </p:menubar>
             </h:form>
+           
            <div class="inline align-content-evenly justify-content-start gap-8 px-6 mt-2 m-4">
 
     <div class="grid">

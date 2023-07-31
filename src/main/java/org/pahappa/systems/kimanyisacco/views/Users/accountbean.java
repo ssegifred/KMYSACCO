@@ -45,12 +45,16 @@ public class accountbean {
         String memberId = member.getMemberId();
         System.out.println("MemberID: " + memberId);
         System.out.println(account.getAmount());
-        boolean check = userservice.getAccountByUserId(memberId, account.getAmount());
+        if (account.getAmount() > 0.0) {
+            boolean check = userservice.getAccountByUserId(memberId, account.getAmount());
 
-        if (check) {
-            System.out.println("\nDeposit successful!");
+            if (check) {
+                System.out.println("\nDeposit successful!");
+            } else {
+                System.out.println("Account not found for MemberID: " + memberId);
+            }
         } else {
-            System.out.println("Account not found for MemberID: " + memberId);
+            System.out.println("Please enter a valid Amount to deposit.");
         }
     }
 
