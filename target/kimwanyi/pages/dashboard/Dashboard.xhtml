@@ -40,7 +40,7 @@
 </h:head>
 <h:body class="bg-bluegray-50">
     <h:panelGroup rendered="#{not empty sessionScope.Member}">
-    <div class="container">
+    <div class="container ">
     <div id="dashboard">
 
             <h:form>
@@ -61,13 +61,38 @@
                         <p:menuitem value="Deposit" icon="pi pi-dollar" onclick="showDepositForm(event)"/>
                     </p:submenu>
                     <p:divider layout="vertical" />
-                    <p:menuitem value="Welcome #{sessionScope.Member.getLastname()}" icon="pi pi-user" escape="false" />
+                    <p:menuitem id="user" value="Welcome #{sessionScope.Member.getLastname()}" icon="pi pi-user" escape="false" />
                     <f:facet name="options">
                         <p:commandButton value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" action="#{loginForm.logout()}"/>
                     </f:facet>
                 </p:menubar>
+                <p:overlayPanel  for="user" style="width:300px">
+                    <div class="text-2xl font-bold text-blue-700">
+                        <h:outputText value="Account Information"/>
+                    </div>
+                    <div class="mt-4">
+                        <h:outputText styleClass="text-blue-700 font-bold" value="Name: "/>
+                        <h:outputText value="#{sessionScope.Member.getLastname()} #{sessionScope.Member.getFirstname()}"/>
+                    </div>
+                    <div class="mt-4">
+                        <h:outputText styleClass="text-blue-700 font-bold" value="Residence: "/>
+                        <h:outputText value="#{sessionScope.Member.getResidence()}"/>
+                    </div >
+                    <div class="mt-4">
+                        <h:outputText styleClass="text-blue-700 font-bold" value="Email: "/>
+                        <h:outputText value="#{sessionScope.Member.getEmail()}"/>
+                    </div>
+                    <div class="mt-4">
+                        <h:outputText styleClass="text-blue-700 font-bold" value="MemberID: "/>
+                        <h:outputText value="#{sessionScope.Member.getMemberId()}"/>
+                    </div>
+                    <div class="mt-4">
+                        <h:outputText styleClass="text-blue-700 font-bold" value="Contact: "/>
+                        <h:outputText value="#{sessionScope.Member.getPhone()}"/>
+                    </div>
+    
+                </p:overlayPanel>
             </h:form>
-           
            <div class="inline align-content-evenly justify-content-start gap-8 px-6 mt-2 m-4">
 
     <div class="grid">
@@ -137,6 +162,17 @@
         <p:column sortBy="#{transact.getType()}" headerText="Category" filterBy="#{transact.getType()}">
             <h:outputText value="#{transact.getType()}" />
         </p:column>
+        <p:column sortBy="#{transact.getStatus()}" headerText="Status" filterBy="#{transact.getStatus()}">
+            <h:panelGroup rendered="#{transact.getStatus() == 0}">
+                <h:outputText value="Approved" styleClass="text-green-300" />
+            </h:panelGroup>
+            <h:panelGroup rendered="#{transact.getStatus() == 1}">
+                <h:outputText value="Pending" styleClass="text-blue-200" />
+            </h:panelGroup>
+            <h:panelGroup rendered="#{transact.getStatus() != 0 and transact.getStatus() != 1}">
+                <h:outputText value="Rejected" styleClass="text-red-300" />
+            </h:panelGroup>
+        </p:column>
     </p:dataTable>
 </div>
 </h:form>
@@ -147,6 +183,7 @@
                 <h:outputText value="© 2023 KMY SACCO. All rights reserved." />
     </div>
         <div id="WithdrawForm" class="dialog-form" style="display: none;">
+            <p:growl id="msg1" showDetail="true" />
             <div class="withdraw-content">
                 <h:form>
                     <div class="flex justify-content-center">
@@ -158,13 +195,15 @@
 
                     <br/><br/>
                     <div class="flex justify-content-center gap-2">
-                    <p:commandButton value="Apply"  action="#{accountbean.Withdrawal() }" onclick="submitLoanForm()"/>
+                    <p:commandButton value="Apply"  action="#{accountbean.Withdrawal() }" update="msg1" />
+                      
                     <p:commandButton value="Close" onclick="hideLoanForm()" />
                     </div>
                 </h:form>
             </div>
         </div>
         <div id="DepositForm" class="dialog-form" style="display: none;">
+            <p:growl id="msg" showDetail="true" />
             <div class="withdraw-content">
                 <h:form>
                     <div class="flex justify-content-center">
@@ -175,13 +214,15 @@
                     <p:inputText  value="#{accountbean.account.amount}"/>
                     <br/><br/>
                     <div class="flex justify-content-center gap-2">
-                        <p:commandButton value="Deposit" action="#{accountbean.Deposit()}" onclick="submitDepositForm()"/>
+                        <p:commandButton value="Deposit" action="#{accountbean.Deposit()}" update="msg" />
+                        
                         <p:commandButton value="Close" onclick="hideDepositForm()" />
                     </div>
                 </h:form>
             </div>
         </div>
     </div>
+    
     </div>
 </h:panelGroup>
 <h:panelGroup rendered="#{empty sessionScope.Member}">

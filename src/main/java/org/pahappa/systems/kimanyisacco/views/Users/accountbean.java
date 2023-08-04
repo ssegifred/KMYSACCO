@@ -1,5 +1,6 @@
 package org.pahappa.systems.kimanyisacco.views.Users;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -45,16 +46,22 @@ public class accountbean {
         String memberId = member.getMemberId();
         System.out.println("MemberID: " + memberId);
         System.out.println(account.getAmount());
-        if (account.getAmount() > 0.0) {
+        if (account.getAmount() > 500.0) {
             boolean check = userservice.getAccountByUserId(memberId, account.getAmount());
 
             if (check) {
-                System.out.println("\nDeposit successful!");
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Deposit done successfully"));
             } else {
-                System.out.println("Account not found for MemberID: " + memberId);
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed", "You are not logged in"));
             }
         } else {
-            System.out.println("Please enter a valid Amount to deposit.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "Enter amount greater than 500"));
         }
     }
 
@@ -68,9 +75,13 @@ public class accountbean {
         boolean check = userservice.getWithdrawals(memberId, account.getAmount());
 
         if (check) {
-            System.out.println("\nWithdraw done successfully!");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Request sent successfully"));
         } else {
-            System.out.println("Insufficient amount: " + memberId);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "Insufficient amount"));
         }
     }
 

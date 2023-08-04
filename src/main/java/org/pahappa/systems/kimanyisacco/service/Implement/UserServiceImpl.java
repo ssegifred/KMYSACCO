@@ -25,6 +25,7 @@ public class UserServiceImpl implements Userservice {
 
     private final UserDAO userDAO = new UserDAO();
 
+    // Save a new member
     public void saveUser(User user) {
         String email = user.getEmail();
         String memberid = user.getMemberId();
@@ -39,25 +40,30 @@ public class UserServiceImpl implements Userservice {
         sendMemberEmail(email, memberid);
     }
 
+    // get all members
     public List<User> getAllUsers() {
 
         return userDAO.getUsers();
     }
 
+    // Get the admin credentials
     public adminLogin getAdmin(String id) {
 
         return userDAO.getAdmin(id);
     }
 
+    // Get member credentials
     public User getMember(String id) {
 
         return userDAO.getMember(id);
     }
 
+    // removing member in the database
     public boolean deleteMember(String memberid) {
         return userDAO.deleteMember(memberid);
     }
 
+    // update member details
     public boolean updateUser(User user) {
         // Hash the password before storing it in the database
         String hashedPassword = hashPassword(user.getPassword());
@@ -65,6 +71,7 @@ public class UserServiceImpl implements Userservice {
         return userDAO.updateUser(user);
     }
 
+    // depositing
     @Override
     public boolean getAccountByUserId(String memberId, Double amount) {
         return userDAO.getAccountByUSerId(memberId, amount);
@@ -77,9 +84,10 @@ public class UserServiceImpl implements Userservice {
 
     @Override
     public boolean getWithdrawals(String memberId, Double amount) {
-        return userDAO.getWithdrawals(memberId, amount);
+        return userDAO.requestWithdrawals(memberId, amount);
     }
 
+    // get transactions done by a specific user
     public List<Transact> getAllTransactions(String id) {
         return userDAO.getTransactions(id);
     }
@@ -126,6 +134,23 @@ public class UserServiceImpl implements Userservice {
             e.printStackTrace();
             // Handle the exception if there's an issue with the encoding
         }
+    }
+
+    public boolean ApprovedWithdraws(String id, Double amount) {
+        return userDAO.ApprovedWithdraws(id, amount);
+
+    }
+
+    public List<Transact> getRequests() {
+        return userDAO.getRequest();
+    }
+
+    public boolean checkEmail(String email) {
+        return userDAO.checkEmail(email);
+    }
+
+    public boolean RejectWithdraws(String id) {
+        return userDAO.RejectWithdraws(id);
     }
 
 }

@@ -18,6 +18,7 @@ public class Transact {
     private Double amount;
     private Timestamp transactionDate;
     private String type;
+    private int status;
 
     @Column(name = "member_id", nullable = false)
     public String getMemberid() {
@@ -63,6 +64,15 @@ public class Transact {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Column(name = "status", nullable = false)
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

@@ -53,20 +53,25 @@
                         </div>
                         <div class="field col-12 md:col-6 ">
                             <label for="dob">Date of Birth</label>
-                            <p:datePicker value="#{register.user.dob}" id="dob" showIcon="true" style="width:auto" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                            <p:calendar value="#{register.user.dob}" pattern="dd/MM/yyy" mindate="01/01/1975" maxdate="31/12/2012" id="dob" style="width:auto" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" showButtonPanel="true"/>
                         </div>
                         <div class="field col-12 md:col-6 ">
-                            <label for="pass">Password</label>
-                            <p:password value="#{register.user.password}" id="pass" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                            <label for="password">Password</label>
+                            <p:password label="Password" value="#{register.user.password}" id="password" required="true"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                                <f:validateLength minimum="6" maximum="32"/>
+                            </p:password>
+                            <p:message for="password" />
                         </div>
+                        
                         <div class="field col-12 md:col-6 ">
                             <label for="memberId">Member ID</label>
                             <p:inputText value="#{register.user.memberId}" id="memberId" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
                         </div>
                         <div class="field col-12 md:col-6 ">
                         <small style="color: coral;">Please Save your MemberID</small></div>
+                        <p:growl showDetail="true" id="emailMessage" />
                         <div class="justify-content-center">
-                        <p:commandButton action="#{register.registerUser()}"  value="save" styleClass="mr-2" style="width: auto" />
+                        <p:commandButton action="#{register.registerUser()}"  value="save" styleClass="mr-2" style="width: auto" update="emailMessage" />
                         <p:button value="Cancel" outcome="#{navigation.admiDashboard}" styleClass="mr-2" style="width: auto"/>
                         </div>
 

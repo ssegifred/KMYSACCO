@@ -53,11 +53,14 @@
                         </div>
                         <div class="field col-12 md:col-6 ">
                             <label for="dob">Date of Birth</label>
-                            <p:datePicker placeholder="#{register.currentUser.getDob()}" value="#{register.user.dob}" id="dob" showIcon="true" style="width:auto" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                            <p:calendar placeholder="#{register.currentUser.getDob()}" value="#{register.user.dob}" id="dob" showIcon="true" style="width:auto" readonly="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
                         </div>
                         <div class="field col-12 md:col-6 ">
                             <label for="pass">Password</label>
-                            <p:password value="#{register.user.password}" id="pass" required="true" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                            <p:password value="#{register.user.password}" id="pass" required="true" label="password" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                                <f:validateLength minimum="6" maximum="32"/>
+                            </p:password>
+                            <p:message for="pass" />
                         </div>
                         <div class="field col-12 md:col-6 ">
                             <label for="memberId">Member ID</label>
@@ -65,7 +68,10 @@
                         </div>
                         <div class="field col-12 md:col-6 ">
                         <div class="justify-content-center">
-                        <p:commandButton   value="Save changes" styleClass="mr-2" style="width: auto" update="edit"/>
+                        <p:commandButton   value="Save changes" styleClass="mr-2" style="width: auto" update="edit">
+                            <p:confirm type="popup" header="Confirmation" message="Do you want to save the changes?" icon="pi pi-info-circle"/>
+                    
+                    </p:commandButton>
                         <p:button value="Cancel" outcome="#{navigation.dashboard}" styleClass="mr-2" style="width: auto"/>
                         </div>
 
@@ -73,6 +79,10 @@
 
                 </div>
         </div>
+        <p:confirmPopup global="true">
+         <p:commandButton value="No" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+         <p:commandButton value="Yes" type="button" styleClass="ui-confirm-popup-yes" />
+     </p:confirmPopup>
     </div>
     </h:form>
 </h:body>

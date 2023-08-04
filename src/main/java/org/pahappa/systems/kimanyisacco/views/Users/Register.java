@@ -40,26 +40,59 @@ public class Register {
         System.out.println("Generated Member ID: " + memberid);
     }
 
+    // check the email entered
+    public String validateEmail(String email) {
+        String inputEmail = email;
+
+        // Basic email validation using a regular expression
+        String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+        if (!inputEmail.matches(emailRegex)) {
+            return "Invalid";
+        } else if (isEmailExistsInDatabase(inputEmail)) {
+            return "Exist";
+        } else {
+            return "save";
+        }
+
+    }
+
+    private boolean isEmailExistsInDatabase(String email) {
+        boolean check = userservice.checkEmail(email);
+        return check;
+    }
+
     // Getters and Setters for user and userservice
 
     public void registerUser() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        String session = (String) context.getExternalContext().getSessionMap().get("AdminID");
-        String base = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        userservice.saveUser(user);
-        if (session != null) {
 
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(base + Hyperlinks.admiDashboard);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String check = validateEmail(user.getEmail());
+        if (check.equals("Invalid")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email address",
+                    "Enter a valid email address");
+            FacesContext.getCurrentInstance().addMessage("email", message);
+        } else if (check.equals("Exist")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email already exists",
+                    "Use another email");
+            FacesContext.getCurrentInstance().addMessage("email", message);
         } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            String session = (String) context.getExternalContext().getSessionMap().get("AdminID");
+            String base = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+            userservice.saveUser(user);
+            if (session != null) {
 
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(base + Hyperlinks.login);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(base + Hyperlinks.admiDashboard);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(base + Hyperlinks.login);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -84,22 +117,33 @@ public class Register {
     }
 
     public void updateUser() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        String base = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        User member = (User) context.getExternalContext().getSessionMap().get("Member");
-        String id = member.getMemberId();
-        user.setMemberId(id);
-        System.out.println(id);
-        boolean update = userservice.updateUser(user);
-        if (update) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(base + Hyperlinks.dashboard);
-            } catch (IOException e) {
-
-                System.out.println("Path not found");
-            }
+        String check = validateEmail(user.getEmail());
+        if (check.equals("Invalid")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email address",
+                    "Enter a valid email address");
+            FacesContext.getCurrentInstance().addMessage("email", message);
+        } else if (check.equals("Exist")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email already exists",
+                    "Use another email");
+            FacesContext.getCurrentInstance().addMessage("email", message);
         } else {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "You session expired!"));
+            FacesContext context = FacesContext.getCurrentInstance();
+            String base = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+            User member = (User) context.getExternalContext().getSessionMap().get("Member");
+            String id = member.getMemberId();
+            user.setMemberId(id);
+            boolean update = userservice.updateUser(user);
+            if (update) {
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(base + Hyperlinks.dashboard);
+                } catch (IOException e) {
+
+                    System.out.println("Path not found");
+                }
+            } else {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "You session expired!"));
+            }
         }
     }
 }

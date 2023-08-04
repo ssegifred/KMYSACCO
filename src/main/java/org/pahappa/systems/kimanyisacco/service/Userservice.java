@@ -20,6 +20,8 @@ public interface Userservice {
 
     boolean updateUser(User user);
 
+    boolean checkEmail(String email);
+
     boolean getAccountByUserId(String id, Double amount);
 
     boolean getWithdrawals(String id, Double amount);
@@ -27,5 +29,11 @@ public interface Userservice {
     List<Transact> getAllTransactions(String id);
 
     List<Transact> getTransactions();
+
+    boolean ApprovedWithdraws(String id, Double amount);
+
+    boolean RejectWithdraws(String id);
+
+    List<Transact> getRequests();
 
 }

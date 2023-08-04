@@ -35,6 +35,7 @@ public class LoginForm {
         this.userservice = new UserServiceImpl();
     }
 
+    // Perform login
     public void doLogin() throws IOException {
         String member = user.getMemberId();
         String pass = user.getPassword();
@@ -58,6 +59,7 @@ public class LoginForm {
         }
     }
 
+    // perfom logout
     public void logout() {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);

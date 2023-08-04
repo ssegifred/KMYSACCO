@@ -2,6 +2,7 @@ package org.pahappa.systems.kimanyisacco.views.Users;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -87,7 +88,7 @@ public class TransactionView {
         if (transactions != null) {
             Double dep = 0.00;
             for (Transact trans : transactions) {
-                if (trans.getType().equals("Withdraw")) {
+                if ((trans.getType().equals("Withdraw")) && (trans.getStatus() == 0)) {
                     dep += trans.getAmount();
 
                 }
@@ -102,5 +103,40 @@ public class TransactionView {
     public Double getBalance() {
         Double balance = getDeposit() - getWithdrawals();
         return balance;
+    }
+
+    // get all withdral requests
+    public List<Transact> getRequests() {
+        transactions = userservice.getRequests();
+        return transactions;
+    }
+
+    public void ApproveRequest(Transact trans) {
+        String memberId = trans.getMemberid();
+        Double amount = trans.getAmount();
+        boolean approved = userservice.ApprovedWithdraws(memberId, amount);
+        if (approved) {
+            transactions.remove(trans);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Request Approved successfully"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "Member balance is not enough!"));
+
+        }
+    }
+
+    public void RejectRequest(Transact trans) {
+        String memberId = trans.getMemberid();
+        // Double amount = trans.getAmount();
+        boolean rejected = userservice.RejectWithdraws(memberId);
+        if (rejected)  {
+            transactions.remove(trans);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Request Rejected successfully"));
+        }
     }
 }

@@ -25,7 +25,7 @@
          }
       }
       function showTransactionForm(event) {
-event.preventDefault();
+      event.preventDefault();
          document.getElementById("TransactionFormDialog").style.display = "block";
       }
 
@@ -37,6 +37,20 @@ event.preventDefault();
          event.preventDefault(); // Prevent default form submission
 
          hideTransactionForm();
+      }
+      function showWithdrawRequestsForm(event) {
+      event.preventDefault();
+         document.getElementById("WithdrawFormDialog").style.display = "block";
+      }
+
+      function hideRequestForm() {
+         document.getElementById("WithdrawFormDialog").style.display = "none";
+      }
+
+      function submitRequestForm(event) {
+         event.preventDefault(); // Prevent default form submission
+
+         hideRequestForm();
       }
    </script>
    <style>
@@ -94,7 +108,7 @@ event.preventDefault();
 
                <p:link value="Profile" icon="pi pi-user-edit" />
                <p:link value="AddMember" outcome="#{navigation.edituser}" icon="pi pi-user-plus" />
-               <p:link value="Loans" icon="pi pi-book"/>
+               <p:link value="WithdrawRequests" icon="pi pi-book" href="#" onclick="showWithdrawRequestsForm(event)"/>
                <p:link value="Transactions" icon="pi pi-briefcase" href="#" onclick="showTransactionForm(event)"/>
                <p:commandLink value="Logout" icon="pi pi-sign-out" action="#{adminBean.logout()}"/>
 
@@ -149,7 +163,9 @@ event.preventDefault();
                   </p:column> -->
                   <p:column headerText="Action">
                      <div class="flex justify-content-center gap-4">
-                     <p:commandButton update="UserTable msg" value="Remove" action="#{userView.deleteMember(user)}" />
+                     <p:commandButton update="UserTable msg" value="Remove" action="#{userView.deleteMember(user)}" >
+                        <p:confirm type="popup" header="Confirmation" message="Do you want to remove this member?" icon="pi pi-info-circle"/>
+                     </p:commandButton>
                      </div>
                   </p:column>
                </p:dataTable>
@@ -195,12 +211,86 @@ event.preventDefault();
                <p:column sortBy="#{transact.getType()}" headerText="Category" filterBy="#{transact.getType()}">
                   <h:outputText value="#{transact.getType()}" />
                </p:column>
+               <p:column sortBy="#{transact.getStatus()}" headerText="Status" filterBy="#{transact.getStatus()}">
+                  <h:panelGroup rendered="#{transact.getStatus() == 0}">
+                     <h:outputText value="Approved" styleClass="text-green-300" />
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{transact.getStatus() == 1}">
+                     <h:outputText value="Pending" styleClass="text-blue-200" />
+                  </h:panelGroup>
+                     <h:panelGroup rendered="#{transact.getStatus() != 0 and transact.getStatus() != 1}">
+                     <h:outputText value="Rejected" styleClass="text-red-300" />
+                     </h:panelGroup>
+                  </p:column>
             </p:dataTable>
             
                </div>
                </h:form>
             </div>
+
+            <div id="WithdrawFormDialog" class="dialog-form" style="display: none;">
+               <h:form>
+               <p:growl id="msg" showDetail="true" />
+               <div class="card">
+                  <div class="flex justify-content-between">
+                  <div>
+                     <p:commandButton value="PDF" styleClass="mr-2 mb-2" icon="pi pi-download">
+                        <p:dataExporter type="pdf" target="history" fileName="WithdrawRequests" visibleOnly="true" includeHeaders="true"/>
+                     </p:commandButton>
+                  </div>
+                  </div>
+               <p:dataTable id="history" var="transact" widgetVar="dtHist" value="#{TransactionView.getRequests()}" showGridlines="true" allowUnsorting="true" sortMode="single">
+               <f:facet name="header">
+                  <div class="flex justify-content-between align-items-center">
+                        <div style="color: green;"><h4>WithdrawRequests</h4></div>
+                        <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                           <p:inputText id="globalFilter" onkeyup="PF('dtHist').filter()" placeholder="Search" />
+                        </span>
+                        <div>
+                           <p:commandButton value="Close" type="button" icon="pi pi-times" onclick="submitRequestForm(event)" />
+                        </div>
+                     
+                  </div>
+               </f:facet>
+         
+               <p:column sortBy="#{transact.getTransactionDate()}" headerText="Date" filterBy="#{transact.getTransactionDate()}">
+                  <h:outputText value="#{transact.getTransactionDate()}" />
+               </p:column>
+         
+               <p:column sortBy="#{transact.getMemberid()}" headerText="MemberID" filterBy="#{transact.getMemberid()}">
+                  <h:outputText value="#{transact.getMemberid()}" />
+               </p:column>
+               <p:column sortBy="#{transact.getAmount()}" headerText="Amount" filterBy="#{transact.getAmount()}">
+                  <h:outputText value="#{transact.getAmount()}" />
+               </p:column>
+         
+               <p:column sortBy="#{transact.getType()}" headerText="Category" filterBy="#{transact.getType()}">
+                  <h:outputText value="#{transact.getType()}" />
+               </p:column>
+               <p:column sortBy="#{transact.getStatus()}" headerText="Status" filterBy="#{transact.getStatus()}">
+            <h:panelGroup rendered="#{transact.getStatus() == 0}">
+               <h:outputText value="Approved" styleClass="text-green-300" />
+            </h:panelGroup>
+            <h:panelGroup rendered="#{transact.getStatus() == 1}">
+               <h:outputText value="Pending" styleClass="text-blue-200" />
+            </h:panelGroup>
+               <h:panelGroup rendered="#{transact.getStatus() != 0 and transact.getStatus() != 1}">
+               <h:outputText value="Rejected" styleClass="text-red-300" />
+               </h:panelGroup>
+            </p:column>
+               <p:column  headerText="Action">
+               <p:commandButton value="Approve" update="history msg" action="#{TransactionView.ApproveRequest(transact)}" />
+               <p:commandButton value="Reject" update="history msg" action="#{TransactionView.RejectRequest(transact)}" />
+               </p:column>
+            </p:dataTable>
+               </div>
+               </h:form>
+            </div>
       </div>
+      <p:confirmPopup global="true">
+         <p:commandButton value="No" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+         <p:commandButton value="Yes" type="button" styleClass="ui-confirm-popup-yes" />
+     </p:confirmPopup>
       </div>
    </h:panelGroup>
 <h:panelGroup rendered="#{empty sessionScope.AdminID}">
